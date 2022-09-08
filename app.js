@@ -18,7 +18,6 @@ require('./config/passport')(passport, config);
 
 const app = express();
 const apiProxy = httpProxy.createProxyServer();
-const ONE_YEAR = 31536000;
 
 app.set('port', config.app.port);
 app.engine(
@@ -46,14 +45,8 @@ app.use(passport.session());
 if (env !== 'development') {
   app.enable('trust proxy');
   app.use(expressEnforcesSsl());
-  app.use(
-    helmet.hsts({
-      maxAge: ONE_YEAR,
-      force: true,
-    })
-  );
+  app.use(helmet());
 }
-app.use(helmet());
 
 app.use(express.static(path.join(__dirname, 'public')));
 
