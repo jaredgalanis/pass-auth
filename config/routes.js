@@ -3,7 +3,7 @@ const ensureAuthenticated = require('../middleware/ensure-auth');
 module.exports = function (app, passport) {
   app.get('/login', function (req, res) {
     if (req.isAuthenticated()) {
-      res.redirect('/app/moo');
+      res.redirect('/app/');
     } else {
       res.render('login', {
         user: null,
@@ -26,7 +26,7 @@ module.exports = function (app, passport) {
 
   app.get('/authenticated', ensureAuthenticated, (req, res) => {
     res.json({
-      access_token: 'tokenized!',
+      access_token: 'dG9rZW5pemVkIQ==',
       user: req.user,
     });
   });
