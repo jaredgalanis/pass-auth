@@ -23,17 +23,19 @@ module.exports = function (passport, config) {
       }
 
       try {
-        const { data } = await axios.get(
+        const {
+          data: {
+            data: [user],
+          },
+        } = await axios.get(
           `${config.app.elideUrl}api/v1/user?filter[user]=username==${username}`
         );
 
-        if (data.data.length === 0) {
+        if (!user) {
           return done(null, false, {
             message: 'Incorrect username or password.',
           });
         }
-
-        const user = data.data[0];
 
         return done(null, {
           id: user.id,
