@@ -1,0 +1,54 @@
+{
+  "name": "pass-auth",
+  "version": "0.1.0",
+  "description": "A service provider authentication strategy for the pass-eclipse project.",
+  "author": "",
+  "proxy": "https://pass.local",
+  "scripts": {
+    "start": "nodemon app.js",
+    "format:check": "prettier --check .",
+    "format:write": "prettier --write .",
+    "lint:check": "eslint .",
+    "lint:fix": "eslint --fix .",
+    "prepare": "husky install"
+  },
+  "dependencies": {
+    "axios": "^0.27.2",
+    "body-parser": "1.15.1",
+    "cookie-parser": "1.4.3",
+    "dotenv": "^16.0.2",
+    "errorhandler": "1.4.3",
+    "express": "4.13.4",
+    "express-handlebars": "^6.0.6",
+    "express-session": "1.13.0",
+    "http-proxy": "^1.18.1",
+    "morgan": "1.7.0",
+    "nodemon": "2.0.2",
+    "passport": "0.4.1",
+    "passport-local": "^1.0.0",
+    "passport-saml": "3.2.1",
+    "pug": "2.0.4"
+  },
+  "devDependencies": {
+    "eslint": "^8.23.0",
+    "eslint-config-prettier": "^8.5.0",
+    "lint-staged": "^13.0.3",
+    "prettier": "^2.7.1",
+    "husky": "^8.0.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,ts}": [
+      "eslint --fix",
+      "prettier --write"
+    ]
+  },
+  "engines": {
+    "node": ">= 4.0.0"
+  },
+  "license": "MIT"
+}
