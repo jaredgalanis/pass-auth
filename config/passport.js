@@ -27,8 +27,6 @@ module.exports = function (passport, config) {
           `${config.app.elideUrl}api/v1/user?filter[user]=username==${username}`
         );
 
-        console.log(data);
-
         if (data.data.length === 0) {
           return done(null, false, {
             message: 'Incorrect username or password.',
@@ -38,13 +36,14 @@ module.exports = function (passport, config) {
         const user = data.data[0];
 
         return done(null, {
-          id: 1,
+          id: user.id,
           username: username,
-          firstName: user.attributes.firstName,
-          lastName: user.attributes.lastName,
+          ...user.attributes,
         });
       } catch (err) {
-        console.log(err);
+        return done(null, false, {
+          message: err.message,
+        });
       }
     })
   );
