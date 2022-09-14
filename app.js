@@ -32,14 +32,16 @@ app.use(morgan('combined'));
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(
-  session({
-    resave: true,
-    saveUninitialized: true,
-    secret: process.env.SESSION_SECRET || 'This is not a secret, friend.',
-    cookie: { httpOnly: true, secure: false, maxAge: 3600000 },
-  })
-);
+const sessionOptions = {
+  resave: true,
+  saveUninitialized: true,
+  secret: process.env.SESSION_SECRET || 'This is not a secret, friend.',
+  cookie: { httpOnly: true, secure: false, maxAge: 3600000 },
+};
+if (env === 'production') {
+  sessionOptions.cookie.secure = true;
+}
+app.use(session(sessionOptions));
 app.use(passport.initialize());
 app.use(passport.session());
 if (env !== 'development') {
