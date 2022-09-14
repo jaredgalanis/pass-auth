@@ -37,7 +37,7 @@ app.use(
     resave: true,
     saveUninitialized: true,
     secret: process.env.SESSION_SECRET || 'This is not a secret, friend.',
-    cookie: { httpOnly: true, secure: false, maxAge: 3600000 },
+    cookie: { httpOnly: true, secure: true, maxAge: 3600000 },
   })
 );
 app.use(passport.initialize());
