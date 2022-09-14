@@ -28,7 +28,7 @@ module.exports = function (passport, config) {
             data: [user],
           },
         } = await axios.get(
-          `${config.app.elideUrl}api/v1/user?filter[user]=username==${username}`
+          `${config.app.elideUrl}${config.app.elideNamespace}user?filter[user]=username==${username}`
         );
 
         if (!user) {
@@ -43,6 +43,7 @@ module.exports = function (passport, config) {
           ...user.attributes,
         });
       } catch (err) {
+        console.error(JSON.stringify(err));
         return done(null, false, {
           message: err.message,
         });

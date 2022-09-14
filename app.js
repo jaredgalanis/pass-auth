@@ -52,13 +52,17 @@ if (env !== 'development') {
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-require('./config/routes')(app, passport);
+require('./config/routes')(app, passport, config);
 
-app.all('/api/v1/*', ensureAuthenticated, function (req, res) {
-  apiProxy.web(req, res, { target: config.app.elideUrl });
-});
+app.all(
+  `/${config.app.elideNamespace}*`,
+  ensureAuthenticated,
+  function (req, res) {
+    apiProxy.web(req, res, { target: config.app.elideUrl });
+  }
+);
 
-app.all('/app/*', ensureAuthenticated, function (req, res) {
+app.all(`${config.app.emberPath}*`, ensureAuthenticated, function (req, res) {
   apiProxy.web(req, res, { target: config.app.emberUrl });
 });
 

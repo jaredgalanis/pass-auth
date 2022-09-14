@@ -1,10 +1,10 @@
 version: '3.8'
 services:
   pass-auth:
-    image: 'pass-auth'
+    image: 'eclipse-pass/auth:0.1.0'
     build:
       context: .
     restart: always
     env_file: .env
     ports:
-      - '3000:3000'
+      - '${AUTH_PORT}:${AUTH_PORT}'
