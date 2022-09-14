@@ -52,7 +52,7 @@ if (env !== 'development') {
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-require('./config/routes')(app, passport);
+require('./config/routes')(app, passport, config);
 
 app.all(
   `/${config.app.elideNamespace}*`,

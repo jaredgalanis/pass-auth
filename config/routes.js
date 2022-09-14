@@ -1,9 +1,6 @@
 const ensureAuthenticated = require('../middleware/ensure-auth');
 
-const env = process.env.NODE_ENV || 'development';
-const config = require('./config')[env];
-
-module.exports = function (app, passport) {
+module.exports = function (app, passport, config) {
   app.get(config.app.loginPath, function (req, res) {
     if (req.isAuthenticated()) {
       res.redirect(config.app.emberPath);
