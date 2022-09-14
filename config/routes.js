@@ -1,9 +1,12 @@
 const ensureAuthenticated = require('../middleware/ensure-auth');
 
+const env = process.env.NODE_ENV || 'development';
+const config = require('./config')[env];
+
 module.exports = function (app, passport) {
-  app.get('/login', function (req, res) {
+  app.get(config.app.loginPath, function (req, res) {
     if (req.isAuthenticated()) {
-      res.redirect('/app/');
+      res.redirect(config.app.emberPath);
     } else {
       res.render('login', {
         user: null,
@@ -12,16 +15,16 @@ module.exports = function (app, passport) {
   });
 
   app.post(
-    '/login',
+    config.app.loginPath,
     passport.authenticate('local', {
-      successRedirect: '/app/auth-callback',
-      failureRedirect: '/login',
+      successRedirect: config.app.loginRedirectSuccess,
+      failureRedirect: config.app.loginRedirectFailure,
     })
   );
 
-  app.get('/logout', function (req, res) {
+  app.get(config.app.logoutPath, function (req, res) {
     req.logout();
-    res.redirect('/login');
+    res.redirect(config.app.logoutRedirect);
   });
 
   app.get('/authenticated', ensureAuthenticated, (req, res) => {
