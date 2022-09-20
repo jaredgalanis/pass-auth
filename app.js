@@ -19,6 +19,7 @@ require('./config/passport')(passport, config);
 const app = express();
 const apiProxy = httpProxy.createProxyServer();
 
+app.set('trust proxy', 1); // trust first proxy
 app.set('port', config.app.port);
 app.engine(
   '.hbs',
