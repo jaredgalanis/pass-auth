@@ -36,6 +36,7 @@ module.exports = {
           issuer: process.env.SAML_ISSUER,
           decryptionPvk: fs.readFileSync('sp-private.key', 'utf-8'),
           forceAuthn: process.env.FORCE_AUTHN,
+          signatureAlgorithm: 'sha256',
         },
       },
     },
