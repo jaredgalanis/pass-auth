@@ -1,21 +1,10 @@
-const ensureAuthenticated = require('../middleware/ensure-auth');
-
 module.exports = function (app, passport, config) {
-  app.get(config.app.loginPath, function (req, res) {
-    if (req.isAuthenticated()) {
-      res.redirect(config.app.emberPath);
-    } else {
-      res.render('login', {
-        user: null,
-      });
-    }
-  });
-
-  app.post(
+  app.get(
     config.app.loginPath,
-    passport.authenticate('local', {
+    passport.authenticate('saml', {
       successRedirect: config.app.loginRedirectSuccess,
       failureRedirect: config.app.loginRedirectFailure,
+      scope: ['email profile'],
     })
   );
 
@@ -24,10 +13,21 @@ module.exports = function (app, passport, config) {
     res.redirect(config.app.logoutRedirect);
   });
 
-  app.get('/authenticated', ensureAuthenticated, (req, res) => {
-    res.json({
-      access_token: 'dG9rZW5pemVkIQ==',
-      user: req.user,
-    });
+  app.post(
+    config.passport[config.passport.strategy].sp.acsUrl,
+    passport.authenticate('saml', {
+      successRedirect: config.app.loginRedirectSuccess,
+      failureRedirect: config.app.loginRedirectFailure,
+    })
+  );
+
+  app.get('/authenticated', (req, res) => {
+    if (req.isAuthenticated()) {
+      res.status(200).send({
+        user: req.user,
+      });
+    } else {
+      res.status(401).send('You are not authenticated');
+    }
   });
 };

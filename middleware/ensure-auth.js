@@ -3,5 +3,5 @@ module.exports = function ensureAuthenticated(req, res, next) {
     return next();
   }
 
-  res.redirect(process.env.AUTH_LOGIN);
+  res.redirect('/');
 };

@@ -1,6 +1,3 @@
-const LocalStrategy = require('passport-local').Strategy;
-const axios = require('axios').default;
-
 module.exports = function (passport, config) {
   passport.serializeUser(function (user, cb) {
     process.nextTick(function () {
@@ -14,40 +11,13 @@ module.exports = function (passport, config) {
     });
   });
 
-  passport.use(
-    new LocalStrategy(async function (username, password, done) {
-      if (process.env.PASSWORD !== password) {
-        return done(null, false, {
-          message: 'Incorrect username or password.',
-        });
-      }
+  const strategies = {
+    multiSaml: require('./strategies/multi-saml-strategy')(config),
+  };
 
-      try {
-        const {
-          data: {
-            data: [user],
-          },
-        } = await axios.get(
-          `${config.app.elideUrl}${config.app.elideNamespace}user?filter[user]=username==${username}`
-        );
+  const strategy = strategies[config.passport.strategy];
 
-        if (!user) {
-          return done(null, false, {
-            message: 'Incorrect username or password.',
-          });
-        }
+  passport.use(strategy);
 
-        return done(null, {
-          id: user.id,
-          username: username,
-          ...user.attributes,
-        });
-      } catch (err) {
-        console.error(JSON.stringify(err));
-        return done(null, false, {
-          message: err.message,
-        });
-      }
-    })
-  );
+  return strategy;
 };
