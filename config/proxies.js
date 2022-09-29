@@ -2,16 +2,20 @@ const ensureAuthenticated = require('../middleware/ensure-auth');
 
 module.exports = function (app, apiProxy, config) {
   app.all(
-    `/${config.app.elideNamespace}*`,
+    `/${config.app.passCoreNamespace}*`,
     ensureAuthenticated,
     function (req, res) {
-      apiProxy.web(req, res, { target: config.app.elideUrl });
+      apiProxy.web(req, res, { target: config.app.passCoreUrl });
     }
   );
 
-  app.all(`${config.app.emberPath}*`, ensureAuthenticated, function (req, res) {
-    apiProxy.web(req, res, { target: config.app.emberUrl });
-  });
+  app.all(
+    `${config.app.passUiPath}*`,
+    ensureAuthenticated,
+    function (req, res) {
+      apiProxy.web(req, res, { target: config.app.passUiUrl });
+    }
+  );
 
   /////////////////////////////////// PROXIED SERVICES IN PASS DOCKER ///////////////////////////////
 
@@ -37,7 +41,6 @@ module.exports = function (app, apiProxy, config) {
       proxyReq.setHeader('Content-Type', 'application/json');
       proxyReq.setHeader('Content-Length', Buffer.byteLength(bodyData));
       // stream the content
-      console.log(bodyData);
       proxyReq.write(bodyData);
     }
   });
