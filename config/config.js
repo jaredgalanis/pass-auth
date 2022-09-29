@@ -28,13 +28,15 @@ module.exports = {
       multiSaml: {
         jhu: {
           entryPoint: process.env.SAML_ENTRY_POINT,
-          cert: process.env.SAML_CERT,
+          cert: process.env.SIGNING_CERT_IDP,
         },
         sp: {
           acsUrl: process.env.ACS_URL,
           identifierFormat: process.env.IDENTIFIER_FORMAT,
           issuer: process.env.SAML_ISSUER,
           decryptionPvk: fs.readFileSync('sp-private.key', 'utf-8'),
+          decryptionCert: fs.readFileSync('sp-cert.pem', 'utf-8'),
+          signingCert: process.env.SIGNING_CERT_SP,
           forceAuthn: process.env.FORCE_AUTHN,
           signatureAlgorithm: 'sha256',
         },

@@ -1,4 +1,4 @@
-module.exports = function (app, passport, config) {
+module.exports = function (app, passport, config, strategy) {
   app.get(
     config.app.loginPath,
     passport.authenticate('saml', {
@@ -29,5 +29,22 @@ module.exports = function (app, passport, config) {
     } else {
       res.status(401).send('You are not authenticated');
     }
+  });
+
+  app.get('/metadata/:idpId', function (req, res) {
+    const decryptionCert =
+      config.passport[config.passport.strategy].sp.decryptionCert;
+    const signingCert =
+      config.passport[config.passport.strategy].sp.signingCert;
+
+    strategy.generateServiceProviderMetadata(
+      req,
+      decryptionCert,
+      signingCert,
+      (_, meta) => {
+        res.type('application/xml');
+        res.status(200).send(meta);
+      }
+    );
   });
 };

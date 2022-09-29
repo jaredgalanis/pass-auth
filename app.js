@@ -13,7 +13,7 @@ const expressEnforcesSsl = require('express-enforces-ssl');
 
 const env = process.env.NODE_ENV || 'development';
 const config = require('./config/config')[env];
-require('./config/passport')(passport, config);
+const strategy = require('./config/passport')(passport, config);
 
 const app = express();
 const apiProxy = httpProxy.createProxyServer();
@@ -47,7 +47,7 @@ if (env !== 'development') {
 }
 app.use(express.static(path.join(__dirname, 'public')));
 
-require('./config/routes')(app, passport, config);
+require('./config/routes')(app, passport, config, strategy);
 require('./config/proxies')(app, apiProxy, config);
 
 app.listen(app.get('port'), function () {
