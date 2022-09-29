@@ -32,6 +32,7 @@ module.exports = {
         },
         sp: {
           acsUrl: process.env.ACS_URL,
+          metadataUrl: process.env.METADATA_URL,
           identifierFormat: process.env.IDENTIFIER_FORMAT,
           issuer: process.env.SAML_ISSUER,
           decryptionPvk: fs.readFileSync('sp-private.key', 'utf-8'),

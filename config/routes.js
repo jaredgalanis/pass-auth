@@ -31,20 +31,23 @@ module.exports = function (app, passport, config, strategy) {
     }
   });
 
-  app.get('/metadata/:idpId', function (req, res) {
-    const decryptionCert =
-      config.passport[config.passport.strategy].sp.decryptionCert;
-    const signingCert =
-      config.passport[config.passport.strategy].sp.signingCert;
+  app.get(
+    config.passport[config.passport.strategy].sp.metadataUrl,
+    function (req, res) {
+      const decryptionCert =
+        config.passport[config.passport.strategy].sp.decryptionCert;
+      const signingCert =
+        config.passport[config.passport.strategy].sp.signingCert;
 
-    strategy.generateServiceProviderMetadata(
-      req,
-      decryptionCert,
-      signingCert,
-      (_, meta) => {
-        res.type('application/xml');
-        res.status(200).send(meta);
-      }
-    );
-  });
+      strategy.generateServiceProviderMetadata(
+        req,
+        decryptionCert,
+        signingCert,
+        (_, meta) => {
+          res.type('application/xml');
+          res.status(200).send(meta);
+        }
+      );
+    }
+  );
 };
