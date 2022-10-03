@@ -71,7 +71,7 @@ module.exports = async function (_req, profile, done, config) {
         data: [user],
       },
     } = await axios.get(
-      `${config.app.elideUrl}${config.app.elideNamespace}user?filter[user]=username==${shibbolethAttrs.eppn}`
+      `${config.app.passCoreUrl}${config.app.passCoreNamespace}user?filter[user]=username==${shibbolethAttrs.eppn}`
     );
 
     if (!user) {
