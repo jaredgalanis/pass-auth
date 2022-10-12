@@ -1,8 +1,8 @@
 {
   "name": "pass-auth",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A service provider authentication strategy for the pass-eclipse project.",
-  "author": "",
+  "author": "Jared Galanis",
   "proxy": "https://pass.local",
   "scripts": {
     "start": "nodemon app.js",
