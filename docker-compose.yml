@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   pass-auth:
-    image: ghcr.io/eclipse-pass/auth:0.2.0@sha256:4e2357d2a309dbf362c0fa8a4047ecd3460b7438eb187c0b951d36b3b343d193
+    image: ghcr.io/eclipse-pass/pass-auth:0.2.0
     build:
       context: .
     restart: always
