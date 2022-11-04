@@ -9,6 +9,16 @@ $ yarn
 $ yarn run start
 ```
 
+## Building
+
+The only build step required is to bundle this service as a Docker image, which can be done with an yarn command:
+
+```
+yarn build
+```
+
+This will create a new `ghcr.io/eclipse-pass/pass-auth` image with a tag matching the version number in `package.json`
+
 ## Configuration
 
 Environment variables are as follows:
