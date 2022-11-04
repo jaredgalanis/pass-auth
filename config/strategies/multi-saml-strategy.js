@@ -8,7 +8,7 @@ module.exports = function (config) {
         const { idpId } = request.params;
 
         const samlConfig = {
-          callbackUrl: `https://${request.headers.host}/Shibboleth.sso/SAML2/POST/${idpId}`,
+          callbackUrl: `https://pass.local/Shibboleth.sso/SAML2/POST/${idpId}`,
           ...config.passport.multiSaml[idpId],
           ...config.passport.multiSaml.sp,
         };
